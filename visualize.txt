@@ -1,14 +1,23 @@
 package calculator;
 
-import javax.swing.*;
-import java.awt.*;
-import javax.swing.event.*;
-import java.awt.event.*;
-public class Calculator extends JFrame implements ActionListener{
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.StringTokenizer;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+public class Calc extends JFrame implements ActionListener{
 	JTextField tf1, tf2;
-	String numstr="";
+	String numStr="";
 	String[] str= {"CE","=","+","-","X","/"};
-	public Calculator() {
+	public Calc() {
 		setTitle("계산기 프레임");
 		setSize(320,230);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -20,11 +29,9 @@ public class Calculator extends JFrame implements ActionListener{
 		
 		pn.setBackground(Color.LIGHT_GRAY);
 		pn.setLayout(new GridLayout(2,2));
+		pc.setLayout(new GridLayout(4,4,5,5));
 		ps.setBackground(Color.YELLOW);
 		
-		c.add(pc);
-		c.add(pn, BorderLayout.NORTH);
-		c.add(ps, BorderLayout.SOUTH);
 		
 		pn.add(new JLabel("수식입력"));
 		pn.add(new JTextField(10));
@@ -33,24 +40,57 @@ public class Calculator extends JFrame implements ActionListener{
 		
 		for(int i = 0; i<16; i++) {
 			JButton b =new JButton();
+
 			pc.add(b);
 			if(i<10) {
 				b.setText(i+"");
+				
 			}else {
 				b.setText(str[i-10]);
 			}
 			if(i>11) {
-				b.setOpaque(true);
-				b.setBackground(Color.CYAN);
+				
 			pc.add(b);
 			b.addActionListener(this);
 			}
 				}
+			c.add(pc);
+			c.add(pn, BorderLayout.NORTH);
+			c.add(ps, BorderLayout.SOUTH);
 			setVisible(true);
 	}
+	
+
 
 			
 	public static void main(String[] args) {
-		new Calculator();
+		new Calc();
 	}
-}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String str=e.getActionCommand();
+	if(str.equals("CE")) {
+			numStr="";
+			tf1.setText(numStr);
+			tf2.setText("");
+		}
+	else if(str.equals("=")) {
+		StringTokenizer st=new StringTokenizer(numStr,"+-X/", true);
+		int num1=Integer.parseInt(st.nextToken());
+		String op=st.nextToken();
+		int num2=Integer.parseInt(st.nextToken());
+		switch(op) {
+		case "+" : tf2.setText(num1+num2+""); break;
+		case "-" : tf2.setText(num1-num2+""); break;
+		case "X" : tf2.setText(num1*num2+""); break;
+		case "/" : tf2.setText(num1/num2+""); break;
+				  default:tf2.setText("오류"); break;
+		}
+		numStr="";
+		tf1.setText(numStr);
+	}else {
+		numStr+=str;
+		tf1.setText(numStr);
+	}
+	}
+	}
