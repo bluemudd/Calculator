@@ -1,0 +1,56 @@
+package calculator;
+
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.event.*;
+import java.awt.event.*;
+public class Calculator extends JFrame implements ActionListener{
+	JTextField tf1, tf2;
+	String numstr="";
+	String[] str= {"CE","=","+","-","X","/"};
+	public Calculator() {
+		setTitle("계산기 프레임");
+		setSize(320,230);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		Container c=getContentPane();
+		JPanel pn=new JPanel();
+		JPanel ps=new JPanel();
+		JPanel pc=new JPanel();
+		
+		pn.setBackground(Color.LIGHT_GRAY);
+		pn.setLayout(new GridLayout(2,2));
+		ps.setBackground(Color.YELLOW);
+		
+		c.add(pc);
+		c.add(pn, BorderLayout.NORTH);
+		c.add(ps, BorderLayout.SOUTH);
+		
+		pn.add(new JLabel("수식입력"));
+		pn.add(new JTextField(10));
+		ps.add(new JLabel("계산결과"));
+		ps.add(new JTextField(10));
+		
+		for(int i = 0; i<16; i++) {
+			JButton b =new JButton();
+			pc.add(b);
+			if(i<10) {
+				b.setText(i+"");
+			}else {
+				b.setText(str[i-10]);
+			}
+			if(i>11) {
+				b.setOpaque(true);
+				b.setBackground(Color.CYAN);
+			pc.add(b);
+			b.addActionListener(this);
+			}
+				}
+			setVisible(true);
+	}
+
+			
+	public static void main(String[] args) {
+		new Calculator();
+	}
+}
